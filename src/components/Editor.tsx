@@ -23,18 +23,23 @@ export interface EditorRef {
   focus: () => void;
 }
 
+/**
+ * 编辑器组件
+ * 核心逻辑已清理，仅保留文档编辑、图片上传和多语言功能。
+ */
 function Editor({ onChange, initialContent, editable = true }: EditorProps, ref: React.Ref<EditorRef>) {
   const { resolvedTheme } = useTheme();
   const { edgestore } = useEdgeStore();
   const params = useParams();
   const locale = (params.locale as string) || "en";
 
+  // 处理图片/文件上传到 EdgeStore
   const handleUpload = async (file: File) => {
     const response = await edgestore.publicFiles.upload({ file });
-
     return response.url;
   };
 
+  // 初始化 BlockNote 编辑器 (不包含 AI 扩展插件)
   const editor: BlockNoteEditor = useCreateBlockNote({
     initialContent: initialContent
       ? (JSON.parse(initialContent) as PartialBlock[])
@@ -43,6 +48,7 @@ function Editor({ onChange, initialContent, editable = true }: EditorProps, ref:
     dictionary: locales[getBlockNoteLocale(locale)] || locales.en,
   });
 
+  // 监听内容变化并回调
   useEffect(() => {
     const unsubscribe = editor.onChange(() => {
       onChange(JSON.stringify(editor.document, null, 2));
@@ -55,12 +61,11 @@ function Editor({ onChange, initialContent, editable = true }: EditorProps, ref:
     };
   }, [editor, onChange]);
 
-  // 聚焦到编辑器的方法
+  // 暴露给父组件的聚焦方法
   const focusEditor = () => {
     editor.focus();
   };
 
-  // 将focus方法暴露给父组件
   useImperativeHandle(ref, () => ({
     focus: focusEditor
   }));

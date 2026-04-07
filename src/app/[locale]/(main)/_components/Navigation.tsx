@@ -6,7 +6,6 @@ import {
   ChevronsLeft,
   ChevronsUp,
   MenuIcon,
-  Sparkles,
   Plus,
   PlusCircle,
   Search,
@@ -47,7 +46,6 @@ function CollapsibleSection({
 }: CollapsibleSectionProps) {
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
-  // 当defaultExpanded变化时更新展开状态
   useEffect(() => {
     setIsExpanded(defaultExpanded);
   }, [defaultExpanded]);
@@ -85,12 +83,6 @@ export function Navigation() {
   const t = useTranslations("Navigation");
 
   const hasStarredDocuments = starredDocuments && starredDocuments.length > 0;
-  const knowledgeBaseDocuments = useQuery(
-    api.documents.getKnowledgeBaseDocuments,
-    {},
-  );
-  const hasKnowledgeBaseDocuments =
-    knowledgeBaseDocuments && knowledgeBaseDocuments.length > 0;
 
   const isResizingRef = useRef(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -223,25 +215,12 @@ export function Navigation() {
               onClick={settings.onOpen}
             />
             <Item
-              label="Notion AI"
-              icon={Sparkles}
-              onClick={() => router.push(`/Chat`)}
-            />
-            <Item
               onClick={handleCreate}
               label={t("newPage")}
               icon={PlusCircle}
             />
           </div>
           <div className="mt-2">
-            {/* 知识库 */}
-            <CollapsibleSection
-              title={t("knowledgeBase")}
-              defaultExpanded={hasKnowledgeBaseDocuments}
-            >
-              <DocumentList isInKnowledgeBase={true} />
-            </CollapsibleSection>
-
             {/* 收藏夹 */}
             <CollapsibleSection
               title={t("favorites")}

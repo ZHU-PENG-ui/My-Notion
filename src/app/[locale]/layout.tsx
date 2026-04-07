@@ -53,25 +53,27 @@ export default async function RootLayout({
   params,
 }: RootLayoutProps) {
   const { locale } = await params;
+
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  // Load messages for the current locale
   const messages = await import(`../../../messages/${locale}.json`);
 
   return (
+    // 关键点 1: suppressHydrationWarning 必须在 html 标签上
     <html lang={locale} suppressHydrationWarning>
-      <body suppressHydrationWarning={true}>
-        <ConvexClientProvider>
-          <EdgeStoreProvider>
-            <ThemeProvider
-              attribute="class"
-              defaultTheme="system"
-              enableSystem
-              disableTransitionOnChange
-              storageKey="notion-clone-2"
-            >
+      <body className="antialiased">
+        {/* 关键点 2: ThemeProvider 建议放在最外层，以确保它能正确处理 html/body 的类名 */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          storageKey="notion-clone-2"
+        >
+          <ConvexClientProvider>
+            <EdgeStoreProvider>
               <NextIntlClientProvider
                 locale={locale}
                 messages={messages.default}
@@ -80,9 +82,9 @@ export default async function RootLayout({
                 <ModalProvider />
                 {children}
               </NextIntlClientProvider>
-            </ThemeProvider>
-          </EdgeStoreProvider>
-        </ConvexClientProvider>
+            </EdgeStoreProvider>
+          </ConvexClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useMutation, useQuery } from "convex/react";
-import { Check, Copy, Globe, Star, BookOpen } from "lucide-react";
+import { useMutation } from "convex/react";
+import { Check, Copy, Globe, Star } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { useUser } from "@clerk/clerk-react";
@@ -32,7 +32,6 @@ export function Publish({ initialData }: PublishProps) {
   const origin = useOrigin();
   const update = useMutation(api.documents.update);
   const toggleStarDoc = useMutation(api.documents.toggleStar);
-  const toggleKnowledgeBaseDoc = useMutation(api.documents.toggleKnowledgeBase);
   const t = useTranslations("Publish");
   const tNav = useTranslations("Navigation");
   const { user, isLoaded: isUserLoaded } = useUser();
@@ -40,9 +39,6 @@ export function Publish({ initialData }: PublishProps) {
   const [copied, setCopied] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isStarred, setIsStarred] = useState(initialData.isStarred || false);
-  const [isInKnowledgeBase, setIsInKnowledgeBase] = useState(
-    initialData.isInKnowledgeBase || false,
-  );
 
   const url = `${origin}/preview/${initialData._id}`;
 
@@ -52,7 +48,6 @@ export function Publish({ initialData }: PublishProps) {
   );
   const createdTime = formatTime(initialData._creationTime, t);
 
-  // 获取当前用户名（从Clerk获取）
   const getCurrentUserName = () => {
     if (!isUserLoaded) return "Loading...";
     return (
@@ -95,9 +90,7 @@ export function Publish({ initialData }: PublishProps) {
 
   const onCopy = () => {
     navigator.clipboard.writeText(url);
-
     setCopied(true);
-
     setTimeout(() => {
       setCopied(false);
     }, 1000);
@@ -114,39 +107,6 @@ export function Publish({ initialData }: PublishProps) {
       toast.success(!isStarred ? t("starredSuccess") : t("unstarredSuccess"));
     } catch (error) {
       toast.error(t("errorToToggleStar"));
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const toggleKnowledgeBase = async () => {
-    setIsSubmitting(true);
-    try {
-      await toggleKnowledgeBaseDoc({
-        id: initialData._id,
-        isInKnowledgeBase: !isInKnowledgeBase,
-      });
-      setIsInKnowledgeBase(!isInKnowledgeBase);
-      toast.success(!isInKnowledgeBase ? "已添加到知识库" : "已从知识库移除");
-
-      // 处理向量数据
-      if (typeof window !== "undefined") {
-        // 动态导入以避免SSR问题
-        import("@/src/lib/rag/rag").then(({ clearVectorStoreCache, triggerDocumentUpdate, removeDocumentFromKnowledgeBase }) => {
-          if (user?.id) {
-            if (!isInKnowledgeBase && initialData.content) {
-              // 添加到知识库，触发文档的向量嵌入
-              triggerDocumentUpdate(user.id, initialData._id, initialData.content, initialData.title);
-            } else {
-              // 从知识库移除，清除相关向量数据
-              removeDocumentFromKnowledgeBase(user.id, initialData._id);
-            }
-            clearVectorStoreCache(user.id);
-          }
-        });
-      }
-    } catch (error) {
-      toast.error("切换知识库状态失败");
     } finally {
       setIsSubmitting(false);
     }
@@ -256,24 +216,6 @@ export function Publish({ initialData }: PublishProps) {
             )}
           </PopoverContent>
         </Popover>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              size="sm"
-              variant="ghost"
-              disabled={isSubmitting}
-              onClick={toggleKnowledgeBase}
-              className="flex items-center"
-            >
-              <BookOpen
-                className={`w-4 h-4 ${isInKnowledgeBase ? "text-blue-500 fill-blue-500" : "text-muted-foreground"}`}
-              />
-            </Button>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p className="text-xs">{tNav("knowledgeBase")}</p>
-          </TooltipContent>
-        </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
             <Button

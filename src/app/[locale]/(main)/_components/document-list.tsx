@@ -16,14 +16,12 @@ interface DocumentListProps {
   level?: number;
   data?: Doc<"documents">[];
   isStarred?: boolean;
-  isInKnowledgeBase?: boolean;
 }
 
 export function DocumentList({
   parentDocumentId,
   level = 0,
   isStarred = false,
-  isInKnowledgeBase = false,
 }: DocumentListProps) {
   const params = useParams();
   const router = useRouter();
@@ -37,28 +35,21 @@ export function DocumentList({
     }));
   };
 
-  const documents = isInKnowledgeBase
+  const documents = isStarred
     ? parentDocumentId
       ? useQuery(api.documents.getSidebar, {
-          parentDocument: parentDocumentId,
-        })
-      : useQuery(api.documents.getKnowledgeBaseDocuments, {})
-    : isStarred
-      ? parentDocumentId
-        ? useQuery(api.documents.getSidebar, {
-            parentDocument: parentDocumentId,
-          })
-        : useQuery(api.documents.getStarred, {})
-      : useQuery(api.documents.getSidebar, {
-          parentDocument: parentDocumentId,
-        });
+        parentDocument: parentDocumentId,
+      })
+      : useQuery(api.documents.getStarred, {})
+    : useQuery(api.documents.getSidebar, {
+      parentDocument: parentDocumentId,
+    });
 
   const onRedirect = (documentId: string) => {
     router.push(`/documents/${documentId}`);
   };
 
   const onMouseEnter = (documentId: string) => {
-    // 预加载页面
     router.prefetch(`/documents/${documentId}`);
   };
 
@@ -91,11 +82,6 @@ export function DocumentList({
       {isStarred && documents.length === 0 && (
         <p className="text-sm font-medium text-muted-foreground/80 px-3 py-2">
           {t("Documents.noStarredPages")}
-        </p>
-      )}
-      {isInKnowledgeBase && documents.length === 0 && (
-        <p className="text-sm font-medium text-muted-foreground/80 px-3 py-2">
-          {t("Documents.noKnowledgeBasePages")}
         </p>
       )}
       {documents.map((document) => (

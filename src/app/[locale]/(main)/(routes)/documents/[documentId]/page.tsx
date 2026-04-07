@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery } from "convex/react";
 import dynamic from "next/dynamic";
-import React, { use, useMemo, useRef, useState, useEffect } from "react";
+import React, { use, useRef, useState, useEffect } from "react";
 import { useTitle } from "@/src/hooks/use-title";
 import { useTranslations } from "next-intl";
 import type { EditorRef } from "@/src/components/Editor";
@@ -14,8 +14,8 @@ import { Toolbar } from "@/src/components/Toolbar";
 import { Cover } from "@/src/components/Cover";
 import { Skeleton } from "@/src/components/ui/skeleton";
 import { ErrorModal } from "@/src/components/modals/error-modal";
-import { getDocumentWatcher } from "@/src/lib/rag/DocumentWatcher";
-import { triggerDocumentUpdate } from "@/src/lib/rag/rag";
+
+// 注意：这里删除了之前指向 src/lib/rag 的所有 import
 
 const Editor = dynamic(() => import("@/src/components/Editor"), {
   ssr: false,
@@ -49,20 +49,19 @@ export default function DocumentIdPage({ params }: DocumentIdPageProps) {
   const update = useMutation(api.documents.update);
 
   const editorRef = useRef<EditorRef>(null);
-  const watcherRef = useRef<any>(null);
-  const updateDebounceRef = useRef<{ timer: NodeJS.Timeout | null; pendingUpdate: { id: Id<'documents'>; content: string } | null }>({ timer: null, pendingUpdate: null });
+  const updateDebounceRef = useRef<{
+    timer: NodeJS.Timeout | null;
+    pendingUpdate: { id: Id<'documents'>; content: string } | null
+  }>({ timer: null, pendingUpdate: null });
 
-  // 防抖处理的更新函数
+  // 防抖处理的更新函数 (用于保存到数据库)
   const debouncedUpdate = (id: Id<'documents'>, content: string) => {
-    // 清除之前的定时器
     if (updateDebounceRef.current.timer) {
       clearTimeout(updateDebounceRef.current.timer);
     }
 
-    // 保存待更新的数据
     updateDebounceRef.current.pendingUpdate = { id, content };
 
-    // 设置新的定时器
     updateDebounceRef.current.timer = setTimeout(() => {
       if (updateDebounceRef.current.pendingUpdate) {
         const { id, content } = updateDebounceRef.current.pendingUpdate;
@@ -72,7 +71,7 @@ export default function DocumentIdPage({ params }: DocumentIdPageProps) {
     }, 1000); // 1秒防抖
   };
 
-  // 强制更新所有待处理的更新
+  // 强制更新所有待处理的数据库更新
   const flushUpdates = () => {
     if (updateDebounceRef.current.pendingUpdate) {
       const { id, content } = updateDebounceRef.current.pendingUpdate;
@@ -93,55 +92,37 @@ export default function DocumentIdPage({ params }: DocumentIdPageProps) {
   // 将浏览器标题设置为文档标题
   useTitle(document?.title);
 
-  // 初始化 DocumentWatcher
+  // 清理逻辑：仅保留组件卸载时的数据库更新强制保存
   useEffect(() => {
-    if (!user) return;
-
-    const watcher = getDocumentWatcher(5000, (docId, content, title) => {
-      triggerDocumentUpdate(user.id, docId, content, title);
-    });
-    watcherRef.current = watcher;
-
     return () => {
-      watcher.flush(documentId);
-      flushUpdates(); // 组件卸载时强制更新
+      flushUpdates();
     };
-  }, [user, documentId]);
+  }, [documentId]);
 
   const onChange = (content: string) => {
-    // 使用防抖更新
+    // 仅执行数据库更新
     debouncedUpdate(documentId, content);
-
-    // 触发 RAG 更新（防抖处理）- 只有当文档在知识库中时才触发
-    if (user && document && document.isInKnowledgeBase) {
-      watcherRef.current?.onDocumentChange(documentId, content, document.title);
-    }
   };
 
   const onTitleChange = (title: string) => {
-    // 触发 RAG 更新（防抖处理）- 只有当文档在知识库中时才触发
-    if (user && document && document.isInKnowledgeBase) {
-      watcherRef.current?.onDocumentChange(documentId, document.content, title);
-    }
+    // 如果需要标题更改时也立即同步某些状态可以在这里处理
+    // 目前标题通过 Toolbar 组件内部的异步 mutation 处理
   };
 
   const handleEnter = () => {
     editorRef.current?.focus();
   };
 
-  // 处理拖拽到文档详情页的逻辑
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.stopPropagation(); // 阻止事件冒泡到编辑器
+    e.stopPropagation();
   };
 
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
-    e.stopPropagation(); // 阻止事件冒泡到编辑器
-    // 检查是否是文档拖拽
-    const documentId = e.dataTransfer.getData("text/plain");
-    if (documentId) {
-      // 显示错误提示，因为不能将文档移动到文档详情页
+    e.stopPropagation();
+    const droppedDocId = e.dataTransfer.getData("text/plain");
+    if (droppedDocId) {
       setErrorModalTitle(t("dragErrorTitle"));
       setErrorModalDescription(t("dragErrorDescription"));
       setErrorModalOpen(true);
@@ -184,7 +165,6 @@ export default function DocumentIdPage({ params }: DocumentIdPageProps) {
         />
       </div>
 
-      {/* 错误提示模态对话框 */}
       <ErrorModal
         open={errorModalOpen}
         onOpenChange={setErrorModalOpen}

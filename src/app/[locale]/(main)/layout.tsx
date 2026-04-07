@@ -8,8 +8,6 @@ import { Navigation } from "./_components/Navigation";
 import { SearchCommand } from "@/src/components/search-command";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import { useUser } from "@clerk/clerk-react";
-import { useVectorStoreStore } from "@/src/lib/store/use-vector-store-store";
 
 export default function MainLayout({
   children,
@@ -17,10 +15,9 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   const { isAuthenticated, isLoading } = useConvexAuth();
-  const { user } = useUser();
-  const { setUserLoadingStatus, userLoadingStatus } = useVectorStoreStore();
   const t = useTranslations();
 
+  // 快捷键监听：处理 Ctrl+S / Command+S 的模拟保存逻辑
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // 检查是否按下了 Ctrl+S 或 Command+S
@@ -30,55 +27,20 @@ export default function MainLayout({
       }
     };
 
-    // 添加事件监听器
     window.addEventListener("keydown", handleKeyDown);
 
-    // 清理事件监听器
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, []);
 
-  // 提前加载向量存储
-  useEffect(() => {
-    if (!isAuthenticated || !user) return;
-
-    // Check if vector store is already loading or loaded for this user
-    const currentStatus = userLoadingStatus[user.id];
-    if (currentStatus === 'loading' || currentStatus === 'success') {
-      return;
-    }
-
-    const initializeVectorStore = async () => {
-      try {
-        setUserLoadingStatus(user.id, 'loading');
-        console.log(`[MainLayout] 开始提前加载向量存储: userId=${user.id}`);
-
-        // 动态导入 rag 模块
-        const { initKnowledgeBaseVectorStore } = await import('@/src/lib/rag/rag');
-        
-        // 初始化向量存储（快速模式，跳过文档检查）
-        await initKnowledgeBaseVectorStore(user.id, true);
-        
-        setUserLoadingStatus(user.id, 'success');
-        console.log(`[MainLayout] 向量存储提前加载完成: userId=${user.id}`);
-      } catch (error) {
-        console.error('[MainLayout] 向量存储提前加载失败:', error);
-        setUserLoadingStatus(user.id, 'error');
-      }
-    };
-
-    // 启动异步初始化
-    initializeVectorStore();
-  }, [isAuthenticated, user, userLoadingStatus, setUserLoadingStatus]);
-
   const handleSave = () => {
-    // 显示保存中提示
+    // 显示“保存中”提示
     const toastId = toast.loading(t("common.saving"), {
       duration: 500
     });
 
-    // 500ms后显示保存成功提示
+    // 500ms 后显示“保存成功”提示
     setTimeout(() => {
       toast.success(t("common.saved"), {
         id: toastId
@@ -86,6 +48,7 @@ export default function MainLayout({
     }, 500);
   };
 
+  // 认证加载中状态
   if (isLoading) {
     return (
       <div className="h-full flex justify-center items-center">
@@ -94,6 +57,7 @@ export default function MainLayout({
     );
   }
 
+  // 路由守卫：未登录用户重定向至首页
   if (!isAuthenticated) {
     return redirect("/");
   }

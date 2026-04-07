@@ -54,17 +54,19 @@ export default async function RootLayout({
 }: RootLayoutProps) {
   const { locale } = await params;
 
+  // 校验 locale 是否合法
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  const messages = await import(`../../../messages/${locale}.json`);
+  // 动态导入语言包
+  const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   return (
-    // 关键点 1: suppressHydrationWarning 必须在 html 标签上
-    <html lang={locale} suppressHydrationWarning>
+    // 关键：suppressHydrationWarning 必须在 html 标签上
+    // 它可以忽略由于 next-themes 修改 class 或 style 导致的属性不匹配
+    <html lang={locale} suppressHydrationWarning={true}>
       <body className="antialiased">
-        {/* 关键点 2: ThemeProvider 建议放在最外层，以确保它能正确处理 html/body 的类名 */}
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -76,7 +78,7 @@ export default async function RootLayout({
             <EdgeStoreProvider>
               <NextIntlClientProvider
                 locale={locale}
-                messages={messages.default}
+                messages={messages}
               >
                 <Toaster position="top-center" />
                 <ModalProvider />

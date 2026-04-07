@@ -1,0 +1,122 @@
+"use client";
+import { useState } from "react";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
+
+import { api } from "@/convex/_generated/api";
+import { Doc, Id } from "@/convex/_generated/dataModel";
+import { useQuery } from "convex/react";
+import { cn } from "@/src/lib/utils";
+import { Item } from "./Item";
+import { FileIcon } from "lucide-react";
+
+interface DocumentListProps {
+  parentDocumentId?: Id<"documents">;
+  level?: number;
+  data?: Doc<"documents">[];
+  isStarred?: boolean;
+  isInKnowledgeBase?: boolean;
+}
+
+export function DocumentList({
+  parentDocumentId,
+  level = 0,
+  isStarred = false,
+  isInKnowledgeBase = false,
+}: DocumentListProps) {
+  const params = useParams();
+  const router = useRouter();
+  const t = useTranslations();
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
+
+  const onExpand = (documentId: string) => {
+    setExpanded((prevExpanded) => ({
+      ...prevExpanded,
+      [documentId]: !prevExpanded[documentId],
+    }));
+  };
+
+  const documents = isInKnowledgeBase
+    ? parentDocumentId
+      ? useQuery(api.documents.getSidebar, {
+          parentDocument: parentDocumentId,
+        })
+      : useQuery(api.documents.getKnowledgeBaseDocuments, {})
+    : isStarred
+      ? parentDocumentId
+        ? useQuery(api.documents.getSidebar, {
+            parentDocument: parentDocumentId,
+          })
+        : useQuery(api.documents.getStarred, {})
+      : useQuery(api.documents.getSidebar, {
+          parentDocument: parentDocumentId,
+        });
+
+  const onRedirect = (documentId: string) => {
+    router.push(`/documents/${documentId}`);
+  };
+
+  const onMouseEnter = (documentId: string) => {
+    // 预加载页面
+    router.prefetch(`/documents/${documentId}`);
+  };
+
+  if (documents === undefined) {
+    return (
+      <>
+        <Item.Skeleton level={level} />
+        {level === 0 && (
+          <>
+            <Item.Skeleton level={level} />
+            <Item.Skeleton level={level} />
+          </>
+        )}
+      </>
+    );
+  }
+
+  return (
+    <>
+      <p
+        className={cn(
+          `hidden text-sm font-medium text-muted-foreground/80`,
+          expanded && "last:block",
+          level === 0 && "hidden",
+        )}
+        style={{ paddingLeft: level ? `${level * 12 + 25}px` : undefined }}
+      >
+        {t("DocumentList.noPagesAvailable")}
+      </p>
+      {isStarred && documents.length === 0 && (
+        <p className="text-sm font-medium text-muted-foreground/80 px-3 py-2">
+          {t("Documents.noStarredPages")}
+        </p>
+      )}
+      {isInKnowledgeBase && documents.length === 0 && (
+        <p className="text-sm font-medium text-muted-foreground/80 px-3 py-2">
+          {t("Documents.noKnowledgeBasePages")}
+        </p>
+      )}
+      {documents.map((document) => (
+        <div key={document._id}>
+          <Item
+            id={document._id}
+            onClick={() => onRedirect(document._id)}
+            onMouseEnter={() => onMouseEnter(document._id)}
+            label={document.title}
+            icon={FileIcon}
+            documentIcon={document.icon}
+            active={params.documentId === document._id}
+            level={level}
+            onExpand={() => onExpand(document._id)}
+            expanded={expanded[document._id]}
+          />
+          {expanded[document._id] && (
+            <DocumentList parentDocumentId={document._id} level={level + 1} />
+          )}
+        </div>
+      ))}
+    </>
+  );
+}

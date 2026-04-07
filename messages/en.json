@@ -1,0 +1,223 @@
+{
+  "SearchCommand": {
+    "placeholder": "Search {name}'s Notion",
+    "empty": "No results found.",
+    "documents": "Documents"
+  },
+  "Cover": {
+    "change": "Change Cover",
+    "remove": "Remove"
+  },
+  "Layout": {
+    "title": "Notion",
+    "description": "The connected workspace where better, faster work happens."
+  },
+  "Marketing": {
+    "heading": "Your personal workspace, where all ideas and plans come together",
+    "subheading": "Create your personal Notion, where creativity and efficiency seamlessly connect",
+    "enterNotion": "Enter Notion",
+    "getNotionFree": "Get Notion Free",
+    "login": "Login",
+    "privacyPolicy": "Privacy Policy",
+    "termsConditions": "Terms & Conditions",
+    "comingSoon": "Coming soon"
+  },
+  "Preview": {
+    "notFound": "Not Found"
+  },
+  "Error": {
+    "somethingWentWrong": "Something went wrong!",
+    "goBack": "Go back",
+    "ok": "OK",
+    "dragErrorTitle": "Hey!",
+    "dragErrorDescription": "Documents cannot be moved here."
+  },
+  "Banner": {
+    "pageInTrash": "This page is in the Trash.",
+    "restorePage": "Restore page",
+    "deleteForever": "Delete forever",
+    "deletingNote": "Deleting note...",
+    "noteDeleted": "Note deleted!",
+    "failedToDeleteNote": "Failed to delete note.",
+    "restoringNote": "Restoring note...",
+    "noteRestored": "Note restored!",
+    "failedToRestoreNote": "Failed to restore note."
+  },
+  "Menu": {
+    "delete": "Delete",
+    "rename": "Rename",
+    "movingToTrash": "Moving to trash...",
+    "noteMovedToTrash": "Note Moved to trash!",
+    "failedToArchiveNote": "Failed to archive note.",
+    "renamingNote": "Renaming note...",
+    "noteRenamed": "Note renamed!",
+    "failedToRenameNote": "Failed to rename note.",
+    "lastEditedBy": "Last edited by: {name}"
+  },
+  "Publish": {
+    "publish": "Publish",
+    "thisNoteLiveOnWeb": "This note is live on the web",
+    "unpublish": "Unpublish",
+    "publishThisNote": "Publish this note",
+    "shareYourWorkWithOthers": "Share your work with others.",
+    "publishing": "Publishing...",
+    "notePublished": "Note published",
+    "errorToPublishNote": "Error publishing note.",
+    "unpublishing": "Unpublishing...",
+    "noteUnpublished": "Note unpublished",
+    "errorToUnpublishNote": "Error unpublishing note.",
+    "lastEdited": "Last edited",
+    "loading": "Loading",
+    "starredSuccess": "Starred successfully",
+    "unstarredSuccess": "Unstarred successfully",
+    "errorToToggleStar": "Failed to toggle star",
+    "justNow": "Just now",
+    "minutesAgo": "{count} minutes ago",
+    "hoursAgo": "{count} hours ago",
+    "createdBy": "Created by {user} on {time}",
+    "editedBy": "Edited by {user} on {time}"
+  },
+  "TrashBox": {
+    "filterByPageTitle": "Filter by page title...",
+    "noDocumentsFound": "No documents found",
+    "restoringNote": "Restoring note...",
+    "noteRestored": "Note restored!",
+    "failedToRestoreNote": "Failed to restore note",
+    "deletingNote": "Deleting note...",
+    "noteDeleted": "Note deleted!",
+    "failedToDeleteNote": "Failed to delete note",
+    "selected": "selected",
+    "batchDelete": "Batch delete"
+  },
+  "DocumentList": {
+    "noPagesAvailable": "No pages available"
+  },
+  "Navigation": {
+    "favorites": "Favorites",
+    "private": "Private",
+    "search": "Search",
+    "settings": "Settings",
+    "newPage": "New Page",
+    "addAPage": "Add a Page",
+    "trash": "Trash",
+    "knowledgeBase": "Knowledge Base",
+    "creatingNewNote": "Creating new note...",
+    "newNoteCreated": "New note created!",
+    "failedToCreateNote": "Failed to create note.",
+    "untitled": "Untitled",
+    "aiConversation": "AI Conversation"
+  },
+  "Item": {
+    "movingToTrash": "Moving to trash...",
+    "noteMovedToTrash": "Note moved to trash!",
+    "failedToArchiveNote": "Failed to archive note",
+    "creatingNewNote": "Creating a new note...",
+    "newNoteCreated": "New note created!",
+    "failedToCreateNewNote": "Failed to create a new note",
+    "movingDocument": "Moving document...",
+    "documentMoved": "Document moved!",
+    "failedToMoveDocument": "Failed to move document",
+    "cannotMoveIntoOwnSubtree": "Cannot move document into its own subtree",
+    "untitled": "New Note",
+    "delete": "Delete",
+    "rename": "Rename",
+    "renamingNote": "Renaming note...",
+    "noteRenamed": "Note renamed!",
+    "failedToRenameNote": "Failed to rename note",
+    "lastEditedBy": "Last edited by: {name}"
+  },
+  "Documents": {
+    "welcome": "Welcome to {name}'s Notion",
+    "createNote": "Create note",
+    "creatingNote": "Creating a new note...",
+    "noteCreated": "New note created",
+    "failedToCreateNote": "Failed to create a new note",
+    "untitled": "New Note",
+    "noStarredPages": "Go star your favorite articles!",
+    "noKnowledgeBasePages": "No knowledge base pages yet"
+  },
+  "Modals": {
+    "settings": {
+      "mySettings": "My settings",
+      "appearance": "Apperance",
+      "customizeHowNotionLooks": "Customize how Notion looks",
+      "language": "Language",
+      "changeTheLanguageOfNotion": "Change the language of Notion"
+    },
+    "confirm": {
+      "areYouAbsolutelySure": "Are you absolutely sure?",
+      "thisActionCannotBeUndone": "This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "coverImage": {
+      "coverImage": "Cover Image"
+    },
+    "rename": {
+      "renameDocument": "Rename document",
+      "enterNewName": "Enter the new document name",
+      "documentName": "Document name",
+      "cancel": "Cancel",
+      "save": "Save",
+      "renaming": "Renaming..."
+    }
+  },
+  "Toolbar": {
+    "addIcon": "Add icon",
+    "addCover": "Add cover"
+  },
+  "LanguageDetector": {
+    "message": "We noticed you're using {language}. Would you like to switch to this language?",
+    "switch": "Switch",
+    "dismiss": "Dismiss"
+  },
+  "common": {
+    "saved": "Saved successfully!",
+    "saving": "Saving...",
+    "settings": "Settings",
+    "userProfile": "User Profile",
+    "changeAvatar": "Change Avatar",
+    "fullName": "Full Name",
+    "enterFullName": "Enter full name",
+    "save": "Save",
+    "logOut": "Log out"
+  },
+  "AI": {
+    "cannotDeleteCurrentConversation": "You cannot delete the current conversation",
+    "conversationDeleted": "Conversation deleted",
+    "deleteFailed": "Deletion failed, please try again",
+    "pleaseLoginFirst": "Please log in first",
+    "loginToUseAIConversation": "Log in to use AI conversation feature",
+    "aiConversation": "AI Conversation",
+    "searchOrStartNewConversation": "Search or start a new conversation",
+    "past30Days": "Past 30 days",
+    "loading": "Loading...",
+    "noConversationRecords": "No conversation records",
+    "newConversation": "New Conversation",
+    "pleaseEnterYourQuestion": "Please enter your question...",
+    "thinking": "Thinking...",
+    "todayIWillHelp": "Today's tasks, I'll help with.",
+    "useAIToHandleTasks": "Use AI to handle various tasks",
+    "conversationHistory": "Conversation History",
+    "history": "History",
+    "notionAI": "Notion AI New Feature",
+    "auto": "Auto",
+    "writeMeetingAgenda": "Write Meeting Agenda",
+    "analyzePDFOrImage": "Analyze PDF or Image",
+    "createTaskReminder": "Create Task Reminder",
+    "featureUnderDevelopment": "Feature under development, coming soon!",
+    "copied": "Copied",
+    "pinSidebar": "Pin",
+    "unpinSidebar": "Unpin",
+    "closeSidebar": "Close",
+    "newAIConversation": "New AI Conversation",
+    "goHome": "Go Home",
+    "searchConversationHistory": "Search conversation history",
+    "noMatchingConversations": "No matching conversations found",
+    "knowledgeBaseInitializing": "Knowledge base is initializing, please try again later",
+    "recentConversationThinking": "Recent Conversation Thinking Process",
+    "knowledgeBaseEnabled": "Knowledge base search enabled",
+    "knowledgeBaseDisabled": "Knowledge base search disabled",
+    "knowledgeBaseTooltip": "RAG retrieval"
+  }
+}

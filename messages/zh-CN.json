@@ -1,0 +1,223 @@
+{
+  "SearchCommand": {
+    "placeholder": "搜索 {name} 的 Notion",
+    "empty": "未找到结果。",
+    "documents": "文档"
+  },
+  "Cover": {
+    "change": "更换封面",
+    "remove": "移除"
+  },
+  "Layout": {
+    "title": "Notion",
+    "description": "连接的工作空间，让工作更美好、更高效。"
+  },
+  "Marketing": {
+    "heading": "您的个人工作空间，承载所有想法与计划",
+    "subheading": "打造专属于你个人的 Notion，让创意与效率无缝衔接",
+    "enterNotion": "进入 Notion",
+    "getNotionFree": "免费获取 Notion",
+    "login": "登录",
+    "privacyPolicy": "隐私政策",
+    "termsConditions": "条款和条件",
+    "comingSoon": "敬请期待"
+  },
+  "Preview": {
+    "notFound": "未找到"
+  },
+  "Error": {
+    "somethingWentWrong": "出现了错误！",
+    "goBack": "返回",
+    "ok": "好的",
+    "dragErrorTitle": "嘿！",
+    "dragErrorDescription": "文档不能移动到这里。"
+  },
+  "Banner": {
+    "pageInTrash": "此页面在回收站中。",
+    "restorePage": "恢复页面",
+    "deleteForever": "永久删除",
+    "deletingNote": "正在删除笔记...",
+    "noteDeleted": "笔记已删除！",
+    "failedToDeleteNote": "删除笔记失败。",
+    "restoringNote": "正在恢复笔记...",
+    "noteRestored": "笔记已恢复！",
+    "failedToRestoreNote": "恢复笔记失败。"
+  },
+  "Menu": {
+    "delete": "删除",
+    "rename": "重命名",
+    "movingToTrash": "正在移至回收站...",
+    "noteMovedToTrash": "笔记已移至回收站！",
+    "failedToArchiveNote": "归档笔记失败。",
+    "renamingNote": "正在重命名...",
+    "noteRenamed": "笔记已重命名！",
+    "failedToRenameNote": "重命名笔记失败。",
+    "lastEditedBy": "最后编辑者：{name}"
+  },
+  "Publish": {
+    "publish": "发布",
+    "thisNoteLiveOnWeb": "此笔记已发布到网络",
+    "unpublish": "取消发布",
+    "publishThisNote": "发布此笔记",
+    "shareYourWorkWithOthers": "与他人分享你的作品。",
+    "publishing": "正在发布...",
+    "notePublished": "笔记已发布",
+    "errorToPublishNote": "发布笔记时出错。",
+    "unpublishing": "正在取消发布...",
+    "noteUnpublished": "笔记已取消发布",
+    "errorToUnpublishNote": "取消发布笔记时出错。",
+    "lastEdited": "上次编辑",
+    "loading": "加载中",
+    "starredSuccess": "收藏成功",
+    "unstarredSuccess": "取消收藏",
+    "errorToToggleStar": "切换收藏状态失败",
+    "justNow": "刚刚",
+    "minutesAgo": "{count}分钟前",
+    "hoursAgo": "{count}小时前",
+    "createdBy": "{user}于{time}创建",
+    "editedBy": "{user}于{time}修改"
+  },
+  "TrashBox": {
+    "filterByPageTitle": "按页面标题过滤...",
+    "noDocumentsFound": "未找到文档",
+    "restoringNote": "正在恢复笔记...",
+    "noteRestored": "笔记已恢复！",
+    "failedToRestoreNote": "恢复笔记失败",
+    "deletingNote": "正在删除笔记...",
+    "noteDeleted": "笔记已删除！",
+    "failedToDeleteNote": "删除笔记失败",
+    "selected": "已选择",
+    "batchDelete": "批量删除"
+  },
+  "DocumentList": {
+    "noPagesAvailable": "暂无页面"
+  },
+  "Navigation": {
+    "favorites": "收藏夹",
+    "private": "个人",
+    "search": "搜索",
+    "settings": "设置",
+    "newPage": "新建页面",
+    "addAPage": "添加页面",
+    "trash": "回收站",
+    "knowledgeBase": "知识库",
+    "creatingNewNote": "正在创建新笔记...",
+    "newNoteCreated": "新笔记已创建！",
+    "failedToCreateNote": "创建笔记失败。",
+    "untitled": "新笔记",
+    "aiConversation": "AI对话"
+  },
+  "Item": {
+    "movingToTrash": "正在移至回收站...",
+    "noteMovedToTrash": "笔记已移至回收站！",
+    "failedToArchiveNote": "归档笔记失败",
+    "creatingNewNote": "正在创建新笔记...",
+    "newNoteCreated": "新笔记已创建！",
+    "failedToCreateNewNote": "创建新笔记失败",
+    "movingDocument": "正在移动文档...",
+    "documentMoved": "文档已移动！",
+    "failedToMoveDocument": "移动文档失败",
+    "cannotMoveIntoOwnSubtree": "不能将文档移动到自己的子文档中",
+    "untitled": "新笔记",
+    "delete": "删除",
+    "rename": "重命名",
+    "renamingNote": "正在重命名...",
+    "noteRenamed": "笔记已重命名！",
+    "failedToRenameNote": "重命名笔记失败",
+    "lastEditedBy": "最后编辑者：{name}"
+  },
+  "Documents": {
+    "welcome": "欢迎来到 {name} 的 Notion",
+    "createNote": "创建笔记",
+    "creatingNote": "正在创建新笔记...",
+    "noteCreated": "新笔记已创建",
+    "failedToCreateNote": "创建新笔记失败",
+    "untitled": "新笔记",
+    "noStarredPages": "快去收藏你喜好的文章吧～",
+    "noKnowledgeBasePages": "暂无知识库文档"
+  },
+  "Modals": {
+    "settings": {
+      "mySettings": "我的设置",
+      "appearance": "外观",
+      "customizeHowNotionLooks": "自定义 Notion 的外观",
+      "language": "语言",
+      "changeTheLanguageOfNotion": "更改 Notion 的语言"
+    },
+    "confirm": {
+      "areYouAbsolutelySure": "您确定要这样做吗？",
+      "thisActionCannotBeUndone": "此操作无法撤销。",
+      "cancel": "取消",
+      "confirm": "确认"
+    },
+    "coverImage": {
+      "coverImage": "封面图片"
+    },
+    "rename": {
+      "renameDocument": "重命名文档",
+      "enterNewName": "请输入新的文档名称",
+      "documentName": "文档名称",
+      "cancel": "取消",
+      "save": "保存",
+      "renaming": "重命名中..."
+    }
+  },
+  "LanguageDetector": {
+    "message": "我们注意到你正在使用 {language}。你想要切换到这种语言吗？",
+    "switch": "切换",
+    "dismiss": "关闭"
+  },
+  "Toolbar": {
+    "addIcon": "添加图标",
+    "addCover": "添加封面"
+  },
+  "common": {
+    "saved": "保存成功！",
+    "saving": "保存中...",
+    "settings": "设置",
+    "userProfile": "用户资料",
+    "changeAvatar": "更换头像",
+    "fullName": "全名",
+    "enterFullName": "输入全名",
+    "save": "保存",
+    "logOut": "退出登录"
+  },
+  "AI": {
+    "cannotDeleteCurrentConversation": "当前对话不能删除",
+    "conversationDeleted": "对话已删除",
+    "deleteFailed": "删除失败，请重试",
+    "pleaseLoginFirst": "请先登录",
+    "loginToUseAIConversation": "登录后才能使用AI对话功能",
+    "aiConversation": "AI对话",
+    "searchOrStartNewConversation": "搜索或开始新的对话",
+    "past30Days": "过去30天",
+    "loading": "加载中...",
+    "noConversationRecords": "暂无对话记录",
+    "newConversation": "新对话",
+    "pleaseEnterYourQuestion": "请输入您的问题...",
+    "thinking": "思考中...",
+    "todayIWillHelp": "今日事，我来帮。",
+    "useAIToHandleTasks": "使用 AI 处理各种任务",
+    "conversationHistory": "对话记录",
+    "history": "历史记录",
+    "notionAI": "Notion AI新功能",
+    "auto": "自动",
+    "writeMeetingAgenda": "撰写会议议程",
+    "analyzePDFOrImage": "分析 PDF 或图片",
+    "createTaskReminder": "创建任务提醒器",
+    "featureUnderDevelopment": "功能开发中，敬请期待！",
+    "copied": "已复制",
+    "pinSidebar": "固定",
+    "unpinSidebar": "取消固定",
+    "closeSidebar": "关闭",
+    "newAIConversation": "新建AI对话",
+    "goHome": "回到首页",
+    "searchConversationHistory": "搜索历史对话",
+    "noMatchingConversations": "没有找到匹配的对话",
+    "knowledgeBaseInitializing": "知识库正在初始化，请稍后再试",
+    "recentConversationThinking": "最近对话思考过程",
+    "knowledgeBaseEnabled": "知识库检索已开启",
+    "knowledgeBaseDisabled": "知识库检索已关闭",
+    "knowledgeBaseTooltip": "RAG检索"
+  }
+}

@@ -1,0 +1,9 @@
+allowBuilds:
+  '@clerk/shared': false
+  '@parcel/watcher': false
+  '@sentry/cli': false
+  '@swc/core': false
+  contextify: false
+  esbuild: false
+  sharp: false
+  unrs-resolver: false

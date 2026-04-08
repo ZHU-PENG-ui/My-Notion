@@ -1,8 +1,6 @@
 import "./globals.css";
 import { Toaster } from "sonner";
 import type { Metadata } from "next";
-// 🔥 导入 Next.js 官方 Script 组件（唯一新增导入）
-import Script from "next/script";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -65,23 +63,6 @@ export default async function RootLayout({
   return (
     <html lang={locale} suppressHydrationWarning={true}>
       <body className="antialiased">
-        {/* 🔥 终极修复：使用 Next.js 官方 Script 组件 */}
-        <Script
-          id="theme-script"
-          strategy="beforeInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                let theme = localStorage.getItem('notion-clone-2') || 'system';
-                if (theme === 'system') {
-                  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-                }
-                document.documentElement.classList.add(theme);
-              })()
-            `,
-          }}
-        />
-
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

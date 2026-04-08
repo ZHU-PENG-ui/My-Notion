@@ -17,7 +17,7 @@ export function ThemeProvider({
   ...props
 }: ThemeProviderProps) {
   return (
-    <NextThemesProvider {...props}>
+    <NextThemesProvider {...props} nonce="">
       {children}
     </NextThemesProvider>
   );

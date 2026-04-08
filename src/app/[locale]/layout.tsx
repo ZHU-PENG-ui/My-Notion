@@ -1,6 +1,8 @@
 import "./globals.css";
 import { Toaster } from "sonner";
 import type { Metadata } from "next";
+// 🔥 导入 Next.js 官方 Script 组件（唯一新增导入）
+import Script from "next/script";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -54,19 +56,32 @@ export default async function RootLayout({
 }: RootLayoutProps) {
   const { locale } = await params;
 
-  // 校验 locale 是否合法
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  // 动态导入语言包
   const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   return (
-    // 关键：suppressHydrationWarning 必须在 html 标签上
-    // 它可以忽略由于 next-themes 修改 class 或 style 导致的属性不匹配
     <html lang={locale} suppressHydrationWarning={true}>
       <body className="antialiased">
+        {/* 🔥 终极修复：使用 Next.js 官方 Script 组件 */}
+        <Script
+          id="theme-script"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                let theme = localStorage.getItem('notion-clone-2') || 'system';
+                if (theme === 'system') {
+                  theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+                }
+                document.documentElement.classList.add(theme);
+              })()
+            `,
+          }}
+        />
+
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

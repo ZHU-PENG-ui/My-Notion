@@ -6,7 +6,6 @@
 - React 18
 - TypeScript
 - Convex
-- Liveblocks
 
 ## 核心功能
 - 实时文档编辑与协作

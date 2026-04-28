@@ -43,3 +43,8 @@ next-env.d.ts
 
 # Convex auto-generated files
 convex/_generated/
+
+# Local-only AI guidance and learning docs (do not upload)
+.cursor/rules/
+docs/stages/
+docs/ai-agent-technical-design.md

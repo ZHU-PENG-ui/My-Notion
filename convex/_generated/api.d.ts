@@ -8,7 +8,9 @@
  * @module
  */
 
+import type * as documentVersions from "../documentVersions.js";
 import type * as documents from "../documents.js";
+import type * as lib_contentHash from "../lib/contentHash.js";
 
 import type {
   ApiFromModules,
@@ -17,7 +19,9 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  documentVersions: typeof documentVersions;
   documents: typeof documents;
+  "lib/contentHash": typeof lib_contentHash;
 }>;
 
 /**

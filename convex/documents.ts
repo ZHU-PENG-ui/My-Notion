@@ -5,6 +5,7 @@ import { v } from "convex/values";
 
 import { mutation, query } from "./_generated/server";
 import { Doc, Id } from "./_generated/dataModel";
+import { createContentHash } from "./lib/contentHash";
 
 /**
  * 归档文档（递归归档子文档）
@@ -99,15 +100,37 @@ export const create = mutation({
     if (!identity) throw new Error("Not authenticated");
 
     const userId = identity.subject;
-    return await context.db.insert("documents", {
+    const now = Date.now();
+    const initialContent = "[]";
+    const initialContentHash = createContentHash(initialContent);
+
+    const documentId = await context.db.insert("documents", {
       title: args.title,
       parentDocument: args.parentDocument,
       userId,
       isArchived: false,
       isPublished: false,
       isStarred: false,
-      lastEditedTime: Date.now(),
+      // 创建即初始化为空文档，确保主表内容与版本快照一致。
+      content: initialContent,
+      lastEditedTime: now,
+      // 版本语义从文档创建时就生效，避免“主表版本号存在但版本表无首条记录”。
+      latestVersion: 1,
+      contentHash: initialContentHash,
+      indexStatus: "pending",
     });
+
+    await context.db.insert("documentVersions", {
+      documentId,
+      version: 1,
+      content: initialContent,
+      contentHash: initialContentHash,
+      createdAt: now,
+      createdBy: userId,
+      source: "system",
+    });
+
+    return documentId;
   },
 });
 
@@ -276,6 +299,8 @@ export const update = mutation({
 
     return await context.db.patch(id, {
       ...rest,
+      // 文档有变更就将索引状态置为 pending，索引任务由后续独立链路处理。
+      indexStatus: "pending",
       lastEditedTime: Date.now(),
     });
   },

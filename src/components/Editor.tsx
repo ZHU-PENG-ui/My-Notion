@@ -25,7 +25,6 @@ export interface EditorRef {
 
 /**
  * 编辑器组件
- * 核心逻辑已清理，仅保留文档编辑、图片上传和多语言功能。
  */
 function Editor({ onChange, initialContent, editable = true }: EditorProps, ref: React.Ref<EditorRef>) {
   const { resolvedTheme } = useTheme();
@@ -39,11 +38,25 @@ function Editor({ onChange, initialContent, editable = true }: EditorProps, ref:
     return response.url;
   };
 
+  /**
+   * BlockNote 要求 initialContent 要么不传，要么是“非空块数组”。
+   * 新文档阶段我们可能会存储 "[]"，这里统一回退为 undefined，避免初始化报错。
+   */
+  const parsedInitialContent = (() => {
+    if (!initialContent) return undefined;
+
+    try {
+      const parsed = JSON.parse(initialContent);
+      if (!Array.isArray(parsed) || parsed.length === 0) return undefined;
+      return parsed as PartialBlock[];
+    } catch {
+      return undefined;
+    }
+  })();
+
   // 初始化 BlockNote 编辑器 (不包含 AI 扩展插件)
   const editor: BlockNoteEditor = useCreateBlockNote({
-    initialContent: initialContent
-      ? (JSON.parse(initialContent) as PartialBlock[])
-      : undefined,
+    initialContent: parsedInitialContent,
     uploadFile: handleUpload,
     dictionary: locales[getBlockNoteLocale(locale)] || locales.en,
   });
